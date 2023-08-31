@@ -22,6 +22,17 @@ DEFAULT_RESYNTHESIS_PROMPT_TMPL = (
     "Otherwise, please return the original query.\n"
 )
 
+DEFAULT_SYNTHESIS_PROMPT_TMPL = (
+    "Вот исходный запрос:\n"
+    "{query_str}\n"
+    "Вот данный ответ:\n"
+    "{response}\n"
+    "Вот некоторые отзывы от оценщика о данном ответе.\n"
+    "{feedback}\n"
+    "Если вы хотите повторно синтезировать запрос, пожалуйста, верните измененный запрос ниже.\n"
+    "В противном случае, пожалуйста, верните исходный запрос.\n"
+)
+
 DEFAULT_RESYNTHESIS_PROMPT = PromptTemplate(DEFAULT_RESYNTHESIS_PROMPT_TMPL)
 
 

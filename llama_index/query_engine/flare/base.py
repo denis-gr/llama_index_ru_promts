@@ -26,52 +26,52 @@ from llama_index.query_engine.flare.answer_inserter import (
 # https://github.com/jzbjyb/FLARE/blob/main/src/templates.py
 
 DEFAULT_EXAMPLES = """
-Query: But what are the risks during production of nanomaterials?
-Answer: [Search(What are some nanomaterial production risks?)]
+Вопрос: Но каковы риски при производстве наноматериалов?
+Ответ: [Поиск (Каковы некоторые риски при производстве наноматериалов?)]
 
-Query: The colors on the flag of Ghana have the following meanings.
-Answer: Red is for [Search(What is the meaning of Ghana's flag being red?)], \
-    green for forests, and gold for mineral wealth.
+Запрос: Цвета на флаге Ганы имеют следующие значения.
+Ответ: Красный означает [Поиск (что означает, что флаг Ганы красный?)], \
+    зеленый цвет - для лесов, а золотой - для полезных ископаемых.
 
-Query: What did the author do during his time in college?
-Answer: The author took classes in [Search(What classes did the author take in \
-    college?)].
+Вопрос: Чем занимался автор во время учебы в колледже?
+Ответ: Автор посещал занятия в [Поиск(какие занятия посещал автор в \
+    колледж?)].
 
 """
 
 DEFAULT_FIRST_SKILL = f"""\
-Skill 1. Use the Search API to look up relevant information by writing \
-    "[Search(query)]" where "query" is the search query you want to look up. \
-    For example: 
+Навык 1. Используйте поисковый API для поиска релевантной информации, написав \
+    "[Поиск (запрос)]", где "запрос" - это поисковый запрос, который вы хотите найти. \
+    Например:
 {DEFAULT_EXAMPLES}
 
 """
 
 DEFAULT_SECOND_SKILL = """\
-Skill 2. Solve more complex generation tasks by thinking step by step. For example:
+Навык 2. Решайте более сложные задачи генерации, обдумывая шаг за шагом. Например:
 
-Query: Give a summary of the author's life and career.
-Answer: The author was born in 1990. Growing up, he [Search(What did the \
-    author do during his childhood?)].
+Запрос: Дайте краткое описание жизни и карьеры автора.
+Ответ: Автор родился в 1990 году. Повзрослев, он [Искал (что сделал тот \
+    что делал автор в детстве?)].
 
-Query: Can you write a summary of the Great Gatsby.
-Answer: The Great Gatsby is a novel written by F. Scott Fitzgerald. It is about \
-    [Search(What is the Great Gatsby about?)].
+Вопрос: Не могли бы вы написать краткое содержание "Великого Гэтсби"?
+Ответ: "Великий Гэтсби" - роман, написанный Ф. Скоттом Фицджеральдом. Речь идет о \
+    [Поиск (О чем "Великий Гэтсби"?)].
 
 """
 
 DEFAULT_END = """
-Now given the following task, and the stub of an existing answer, generate the \
-next portion of the answer. You may use the Search API \
-"[Search(query)]" whenever possible.
-If the answer is complete and no longer contains any "[Search(query)]" tags, write \
-    "done" to finish the task.
-Do not write "done" if the answer still contains "[Search(query)]" tags.
-Do not make up answers. It is better to generate one "[Search(query)]" tag and stop \
-generation
-than to fill in the answer with made up information with no "[Search(query)]" tags
-or multiple "[Search(query)]" tags that assume a structure in the answer.
-Try to limit generation to one sentence if possible.
+Теперь, учитывая следующую задачу и заглушку существующего ответа, сгенерируйте
+следующую часть ответа. Вы можете использовать поисковый API \
+"[Поиск (запрос)]" всякий раз, когда это возможно.
+Если ответ является полным и больше не содержит тегов "[Поиск(запрос)]", напишите \
+    "готово", чтобы завершить задание.
+Не пишите "готово", если ответ все еще содержит теги "[Поиск(запрос)]".
+Не выдумывайте ответы. Лучше сгенерировать один тег "[Поиск (запрос)]" и остановить
+генерацию
+, чем заполнять ответ выдуманной информацией без тегов "[Поиск(запрос)]"
+или несколько тегов "[Поиск (запрос)]", которые предполагают структуру в ответе.
+Постарайтесь ограничить генерацию одним предложением, если это возможно.
 
 """
 
@@ -81,9 +81,9 @@ DEFAULT_INSTRUCT_PROMPT_TMPL = (
     + DEFAULT_END
     + (
         """
-Query: {query_str}
-Existing Answer: {existing_answer}
-Answer: """
+Запрос: {query_str}
+Существующий ответ: {existing_answer}
+Ответ: """
     )
 )
 

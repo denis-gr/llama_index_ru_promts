@@ -22,18 +22,19 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_TEMPLATE = """\
-Given a conversation (between Human and Assistant) and a follow up message from Human, \
-rewrite the message to be a standalone question that captures all relevant context \
-from the conversation.
+Учитывая беседу (между человеком и помощником) и последующее сообщение от человека, \
+перепишите сообщение так, чтобы оно было отдельным вопросом, который отражает весь соответствующий контекст \
+из беседы.
 
-<Chat History> 
-{chat_history}
+История чата в <>
+<{chat_history}>
 
-<Follow Up Message>
-{question}
+Последующее сообщение в []
+[{question}]
 
-<Standalone question>
+Твой отдельный вопрос: 
 """
+
 
 DEFAULT_PROMPT = PromptTemplate(DEFAULT_TEMPLATE)
 

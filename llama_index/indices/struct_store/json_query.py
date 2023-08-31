@@ -31,6 +31,19 @@ DEFAULT_RESPONSE_SYNTHESIS_PROMPT_TMPL = (
     "Query: {query_str}\n"
     "Response: "
 )
+
+DEFAULT_RESPONSE_SYNTHESIS_PROMPT_TMPL = (
+"Учитывая запрос, синтезируйте ответ "
+    "для удовлетворения запроса с использованием результатов JSON."
+    "Включайте только те сведения, которые имеют отношение к запросу."
+    "Если ты не знаешь ответа, тогда скажи это.\n"
+    "Схема JSON: {json_schema}\n"
+    "Путь к JSON: {json_path}\n"
+    "Значение в пути: {json_path_value}\n"
+    "Запрос: {query_str}\n"
+    "Ответ: "
+)
+
 DEFAULT_RESPONSE_SYNTHESIS_PROMPT = PromptTemplate(
     DEFAULT_RESPONSE_SYNTHESIS_PROMPT_TMPL,
     prompt_type=PromptType.SQL_RESPONSE_SYNTHESIS,

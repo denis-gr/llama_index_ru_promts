@@ -23,12 +23,12 @@ from llama_index.tools import BaseTool
 
 # inspired by DEFAULT_QA_PROMPT_TMPL from llama_index/prompts/default_prompts.py
 DEFAULT_QA_PROMPT_TMPL = (
-    "Context information is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the context information and not prior knowledge, "
-    "either pick the corresponding tool or answer the function: {query_str}\n"
+    "Контекстная информация в <>.\n"
+    "---------------------\ n"
+    "<{context_str}>\n"
+    "---------------------\ n"
+    "Учитывая контекстную информацию, а не предварительные знания",
+    "ответьте на вопрос в []: [{query_str}]\n"
 )
 DEFAULT_QA_PROMPT = PromptTemplate(DEFAULT_QA_PROMPT_TMPL)
 

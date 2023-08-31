@@ -35,87 +35,87 @@ class BaseLookaheadAnswerInserter(ABC):
 
 
 DEFAULT_ANSWER_INSERT_PROMPT_TMPL = """
-An existing 'lookahead response' is given below. The lookahead response
-contains `[Search(query)]` tags. Some queries have been executed and the
-response retrieved. The queries and answers are also given below.
-Also the previous response (the response before the lookahead response)
-is given below.
-Given the lookahead template, previous response, and also queries and answers,
-please 'fill in' the lookahead template with the appropriate answers.
+Существующий "предварительный ответ" приведен ниже. Ответ lookahead
+содержит теги `[Поиск(запрос)]`. Некоторые запросы были выполнены и
+получен ответ. Вопросы и ответы также приведены ниже.
+Также предыдущий ответ (ответ перед предварительным ответом)
+приведен ниже.
+Учитывая шаблон предварительного просмотра, предыдущий ответ, а также запросы и ответы на них,
+пожалуйста, "заполните" шаблон предварительного просмотра соответствующими ответами.
 
-NOTE: Please make sure that the final response grammatically follows
-the previous response + lookahead template. For example, if the previous
-response is "New York City has a population of " and the lookahead
-template is "[Search(What is the population of New York City?)]", then
-the final response should be "8.4 million".
+ПРИМЕЧАНИЕ: Пожалуйста, убедитесь, что окончательный ответ грамматически соответствует
+предыдущий ответ + шаблон предварительного просмотра. Например, если предыдущий
+ответ был "Население Нью-Йорка составляет "
+, а шаблон предварительного просмотра - "[Поиск (каково население Нью-Йорка?)]", то
+окончательный ответ должен быть "8,4 миллиона".
 
-NOTE: the lookahead template may not be a complete sentence and may
-contain trailing/leading commas, etc. Please preserve the original
-formatting of the lookahead template if possible.
+ПРИМЕЧАНИЕ: шаблон предварительного просмотра может быть неполным предложением и
+содержать конечные/ ведущие запятые и т.д. Пожалуйста, сохраните исходное
+форматирование шаблона предварительного просмотра, если это возможно.
 
-NOTE: 
+записка: 
 
-NOTE: the exception to the above rule is if the answer to a query
-is equivalent to "I don't know" or "I don't have an answer". In this case,
-modify the lookahead template to indicate that the answer is not known.
+ПРИМЕЧАНИЕ: исключением из приведенного выше правила является случай, когда ответ на запрос
+это эквивалентно "я не знаю" или "у меня нет ответа". В этом случае
+измените шаблон предварительного просмотра, чтобы указать, что ответ неизвестен.
 
-NOTE: the lookahead template may contain multiple `[Search(query)]` tags
-    and only a subset of these queries have been executed.
-    Do not replace the `[Search(query)]` tags that have not been executed.
+ПРИМЕЧАНИЕ: шаблон lookahead может содержать несколько тегов `[Поиск(запрос)]`
+    и только подмножество этих запросов было выполнено.
+    Не заменяйте теги `[Поиск(запрос)]`, которые не были выполнены.
 
-Previous Response:
+Предыдущий ответ:
 
 
-Lookahead Template:
-Red is for [Search(What is the meaning of Ghana's \
-    flag being red?)], green for forests, and gold for mineral wealth.
+Предварительный шаблон:
+Красный означает [Поиск(что означает название Ганы \
+    флаг красный?)], зеленый - для лесов, а золотой - для полезных ископаемых.
 
-Query-Answer Pairs:
-Query: What is the meaning of Ghana's flag being red?
-Answer: The red represents the blood of those who died in the country's struggle \
-    for independence
+Пары "Запрос-ответ":
+Вопрос: Что означает то, что флаг Ганы красный?
+Ответ: Красный цвет символизирует кровь тех, кто погиб в борьбе за страну \
+    за независимость
 
-Filled in Answers:
-Red is for the blood of those who died in the country's struggle for independence, \
-    green for forests, and gold for mineral wealth.
+Заполненные ответы:
+Красный цвет символизирует кровь тех, кто погиб в борьбе страны за независимость, \
+    зеленый цвет - для лесов, а золотой - для полезных ископаемых.
 
-Previous Response:
-One of the largest cities in the world
+Предыдущий ответ:
+Один из крупнейших городов мира
 
-Lookahead Template:
-, the city contains a population of [Search(What is the population \
-    of New York City?)]
+Шаблон поиска:
+, город содержит население [Поиск(каково население \
+    из Нью-Йорка?)]
 
-Query-Answer Pairs:
-Query: What is the population of New York City?
-Answer: The population of New York City is 8.4 million
+Пары "Запрос-ответ":
+Вопрос: Каково население Нью-Йорка?
+Ответ: Население Нью-Йорка составляет 8,4 миллиона человек
 
-Synthesized Response:
-, the city contains a population of 8.4 million
+Обобщенный ответ:
+население города составляет 8,4 миллиона человек
 
-Previous Response:
-the city contains a population of 
+Предыдущий ответ:
+население города составляет 
 
-Lookahead Template:
-[Search(What is the population of New York City?)]
+Предварительный шаблон:
+[Поиск (Каково население Нью-Йорка?)]
 
-Query-Answer Pairs:
-Query: What is the population of New York City?
-Answer: The population of New York City is 8.4 million
+Пары "Запрос-ответ":
+Вопрос: Каково население Нью-Йорка?
+Ответ: Население Нью-Йорка составляет 8,4 миллиона человек
 
-Synthesized Response:
-8.4 million
+Синтезированный ответ:
+8,4 миллиона
 
-Previous Response:
+Предыдущий ответ:
 {prev_response}
 
-Lookahead Template:
+Предварительный шаблон:
 {lookahead_response}
 
-Query-Answer Pairs:
+Пары "Запрос-ответ":
 {query_answer_pairs}
 
-Synthesized Response:
+Синтезированный ответ:
 """
 DEFAULT_ANSWER_INSERT_PROMPT = PromptTemplate(DEFAULT_ANSWER_INSERT_PROMPT_TMPL)
 

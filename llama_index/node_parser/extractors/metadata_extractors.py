@@ -57,6 +57,10 @@ DEFAULT_NODE_TEXT_TEMPLATE = """\
 [Excerpt from document]\n{metadata_str}\n\
 Excerpt:\n-----\n{content}\n-----\n"""
 
+DEFAULT_NODE_TEXT_TEMPLATE = """\
+[Выдержка из документа]\n{metadata_str}\n\
+Выдержка:\n------\n{content}\n------\n"""
+
 
 class MetadataExtractor(BaseExtractor):
     """Metadata extractor."""
@@ -143,6 +147,14 @@ DEFAULT_TITLE_COMBINE_TEMPLATE = """\
 {context_str}. Based on the above candidate titles and content, \
 what is the comprehensive title for this document? Title: """
 
+DEFAULT_TITLE_NODE_TEMPLATE = """\
+Контекст: {context_str}. Дайте заголовок, который суммирует все
+уникальные объекты, названия или темы, найденные в контексте. Название: """
+
+
+DEFAULT_TITLE_COMBINE_TEMPLATE = """\
+{context_str}. Основываясь на приведенных выше названиях кандидатов и содержании, \
+каково полное название этого документа? Название: """
 
 class TitleExtractor(MetadataFeatureExtractor):
     """Title extractor. Useful for long documents. Extracts `document_title`
@@ -289,8 +301,8 @@ class KeywordExtractor(MetadataFeatureExtractor):
             keywords = self.llm_predictor.predict(
                 PromptTemplate(
                     template=f"""\
-{{context_str}}. Give {self.keywords} unique keywords for this \
-document. Format as comma separated. Keywords: """
+{{context_str}}. Укажите {self.keywords} уникальные ключевые слова для этого \
+документа. Форматировать через запятую. Ключевые слова: """
                 ),
                 context_str=cast(TextNode, node).text,
             )
@@ -313,6 +325,19 @@ that this context can answer.
 
 """
 
+DEFAULT_QUESTION_GEN_TMPL = """\
+Вот контекст:
+{context_str}
+
+Учитывая контекстуальную информацию, \
+сгенерируйте {num_questions} вопросы, которые в этом контексте могут дать \
+конкретные ответы, на которые вряд ли можно найти где-либо еще.
+
+Также могут быть предоставлены краткие сведения об окружающем контексте более высокого уровня
+. Попробуйте использовать эти резюме, чтобы сгенерировать лучшие вопросы, на
+которые можно ответить в данном контексте.
+
+"""
 
 class QuestionsAnsweredExtractor(MetadataFeatureExtractor):
     """
@@ -402,6 +427,14 @@ Here is the content of the section:
 Summarize the key topics and entities of the section. \
 
 Summary: """
+
+DEFAULT_SUMMARY_EXTRACT_TEMPLATE = """\
+Вот содержание этого раздела:
+{context_str}
+
+Кратко изложите ключевые темы и сущности раздела. \
+
+Краткое содержание: """
 
 
 class SummaryExtractor(MetadataFeatureExtractor):

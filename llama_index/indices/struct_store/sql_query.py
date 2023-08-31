@@ -30,6 +30,13 @@ DEFAULT_RESPONSE_SYNTHESIS_PROMPT_TMPL = (
     "SQL Response: {sql_response_str}\n"
     "Response: "
 )
+DEFAULT_RESPONSE_SYNTHESIS_PROMPT_TMPL = (
+"Учитывая входной вопрос, синтезируйте ответ из результатов запроса.\n"
+    "Запрос: {query_str}\n"
+    "SQL: {sql_query}\n"
+    "Ответ SQL: {sql_response_str}\n"
+    "Ответ: "
+)
 DEFAULT_RESPONSE_SYNTHESIS_PROMPT = PromptTemplate(
     DEFAULT_RESPONSE_SYNTHESIS_PROMPT_TMPL,
     prompt_type=PromptType.SQL_RESPONSE_SYNTHESIS,

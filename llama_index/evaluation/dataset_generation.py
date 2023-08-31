@@ -15,10 +15,11 @@ from llama_index.prompts.base import BasePromptTemplate, PromptTemplate
 from llama_index.schema import BaseNode, NodeWithScore, MetadataMode
 from llama_index.indices.postprocessor.node import KeywordNodePostprocessor
 
-DEFAULT_QUESTION_GENERATION_PROMPT = """Context information is below.\n"
-"\n---------------------\n{context_str}\n---------------------\n"
-"Given the context information and not prior knowledge.\n"
-"generate only questions based on the below query.\n"
+
+DEFAULT_QUESTION_GENERATION_PROMPT = """Контекстная информация приведена ниже.\n"
+"\n---------------------\ n{context_str}\n---------------------\ n"
+"Учитывая контекстную информацию, а не предварительные знания.\n"
+"генерируйте только вопросы на основе приведенного ниже запроса.\n"
 "{query_str}\n"
 """
 
@@ -63,11 +64,11 @@ class DatasetGenerator:
         )
         self.question_gen_query = (
             question_gen_query
-            or f"You are a Teacher/ Professor. Your task is to setup \
-                        {num_questions_per_chunk} questions for an upcoming \
-                        quiz/examination. The questions should be diverse in nature \
-                            across the document. Restrict the questions to the \
-                                context information provided."
+            or f"Вы учитель/ профессор. Ваша задача состоит в том, чтобы настроить \
+{num_questions_per_chunk} вопросы для предстоящего \
+викторина /экзамен. Вопросы должны быть разнообразными по своему характеру \
+по всему документу. Ограничьте вопросы следующими \
+предоставлена контекстная информация."
         )
         self.nodes = nodes
 

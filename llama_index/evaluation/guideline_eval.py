@@ -59,19 +59,20 @@ class GuidelineEvaluator(BaseEvaluator):
 
 
 DEFAULT_GUIDELINES = (
-    "The response should fully answer the query.\n"
-    "The response should avoid being vague or ambiguous.\n"
-    "The response should be specific and use statistics or numbers when possible.\n"
+"Ответ должен полностью отвечать на запрос.\n"
+"Ответ не должен быть расплывчатым или двусмысленным.\n"
+"Ответ должен быть конкретным и по возможности использовать статистику или цифры.\n"
 )
 
+
 DEFAULT_EVAL_TEMPLATE = (
-    "Here is the original query:\n"
-    "Query: {query}\n"
-    "Critique the following response based on the guidelines below:\n"
-    "Response: {response}\n"
-    "Guidelines: {guidelines}\n"
-    "Now please provide constructive criticism in the following format:\n"
-    "{format_instructions}"
+"Вот исходный запрос:\n"
+"Запрос: {query}\n"
+"Раскритикуйте следующий ответ, основываясь на приведенных ниже рекомендациях:\n"
+"Ответ: {response}\n"
+"Руководящие принципы: {guidelines}\n"
+"Теперь, пожалуйста, предоставьте конструктивную критику в следующем формате:\n"
+"{format_instructions}"
 )
 
 

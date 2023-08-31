@@ -6,14 +6,14 @@ from llama_index.prompts.base import ChatPromptTemplate
 # text qa prompt
 TEXT_QA_SYSTEM_PROMPT = ChatMessage(
     content=(
-        "You are an expert Q&A system that is trusted around the world.\n"
-        "Always answer the query using the provided context information, "
-        "and not prior knowledge.\n"
-        "Some rules to follow:\n"
-        "1. Never directly reference the given context in your answer.\n"
-        "2. Avoid statements like 'Based on the context, ...' or "
-        "'The context information ...' or anything along "
-        "those lines."
+        "Вы являетесь экспертом в системе вопросов и ответов, которой доверяют во всем мире.\n"
+        "Всегда отвечайте на запрос, используя предоставленную контекстную информацию",
+        "и без предварительного знания.\n"
+        "Некоторые правила, которым следует следовать:\n"
+        "1. Никогда не ссылайтесь напрямую на данный контекст в своем ответе.\n"
+        "2. Избегайте утверждений типа 'Исходя из контекста, ...' или "
+        "'Контекстная информация...' или что-нибудь в этом роде"
+        "эти линии."
     ),
     role=MessageRole.SYSTEM,
 )
@@ -22,14 +22,14 @@ TEXT_QA_PROMPT_TMPL_MSGS = [
     TEXT_QA_SYSTEM_PROMPT,
     ChatMessage(
         content=(
-            "Context information is below.\n"
-            "---------------------\n"
+            "Контекстная информация приведена ниже.\n"
+            "---------------------\ n"
             "{context_str}\n"
-            "---------------------\n"
-            "Given the context information and not prior knowledge, "
-            "answer the query.\n"
-            "Query: {query_str}\n"
-            "Answer: "
+            "---------------------\ n"
+            "Учитывая контекстную информацию, а не предварительные знания",
+            "ответьте на запрос.\n"
+            "Запрос: {query_str}\n"
+            "Ответ: "
         ),
         role=MessageRole.USER,
     ),
@@ -42,14 +42,14 @@ TREE_SUMMARIZE_PROMPT_TMPL_MSGS = [
     TEXT_QA_SYSTEM_PROMPT,
     ChatMessage(
         content=(
-            "Context information from multiple sources is below.\n"
-            "---------------------\n"
+            "Ниже приведена контекстная информация из нескольких источников.\n"
+            "---------------------\ n"
             "{context_str}\n"
-            "---------------------\n"
-            "Given the information from multiple sources and not prior knowledge, "
-            "answer the query.\n"
-            "Query: {query_str}\n"
-            "Answer: "
+            "---------------------\ n"
+            "Учитывая информацию из нескольких источников, а не предварительные знания",
+            "ответьте на запрос.\n"
+            "Запрос: {query_str}\n"
+            "Ответ: "
         ),
         role=MessageRole.USER,
     ),
@@ -64,16 +64,16 @@ CHAT_TREE_SUMMARIZE_PROMPT = ChatPromptTemplate(
 CHAT_REFINE_PROMPT_TMPL_MSGS = [
     ChatMessage(
         content=(
-            "You are an expert Q&A system that stricly operates in two modes"
-            "when refining existing answers:\n"
-            "1. **Rewrite** an original answer using the new context.\n"
-            "2. **Repeat** the original answer if the new context isn't useful.\n"
-            "Never reference the original answer or context directly in your answer.\n"
-            "When in doubt, just repeat the original answer."
-            "New Context: {context_msg}\n"
-            "Query: {query_str}\n"
-            "Original Answer: {existing_answer}\n"
-            "New Answer: "
+            "Вы являетесь экспертной системой вопросов и ответов, которая работает строго в двух режимах"
+            "при уточнении существующих ответов:\n"
+            "1. ** Перепишите** оригинальный ответ, используя новый контекст.\n"
+            "2. ** Повторите ** первоначальный ответ, если новый контекст бесполезен.\n"
+            "Никогда не ссылайтесь непосредственно на исходный ответ или контекст в своем ответе.\n"
+            "Если сомневаетесь, просто повторите первоначальный ответ."
+            "Новый контекст: {context_msg}\n"
+            "Запрос: {query_str}\n"
+            "Оригинальный ответ: {existing_answer}\n"
+            "Новый ответ: "
         ),
         role=MessageRole.USER,
     )
@@ -89,17 +89,17 @@ CHAT_REFINE_TABLE_CONTEXT_TMPL_MSGS = [
     ChatMessage(content="{existing_answer}", role=MessageRole.ASSISTANT),
     ChatMessage(
         content=(
-            "We have provided a table schema below. "
-            "---------------------\n"
-            "{schema}\n"
-            "---------------------\n"
-            "We have also provided some context information below. "
+            "Мы предоставили схему таблицы ниже."
+            "---------------------\ n"
+            "{схема}\n"
+            "---------------------\ n"
+            "Мы также предоставили некоторую контекстную информацию ниже."
             "{context_msg}\n"
-            "---------------------\n"
-            "Given the context information and the table schema, "
-            "refine the original answer to better "
-            "answer the question. "
-            "If the context isn't useful, return the original answer."
+            "---------------------\ n"
+            "Учитывая контекстную информацию и схему таблицы",
+            "доработайте первоначальный ответ, чтобы он стал лучше "
+            " отвечай на вопрос."
+            "Если контекст бесполезен, верните исходный ответ."
         ),
         role=MessageRole.USER,
     ),

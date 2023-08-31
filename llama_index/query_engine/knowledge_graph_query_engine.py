@@ -22,32 +22,32 @@ logger = logging.getLogger(__name__)
 
 # Prompt
 DEFAULT_NEBULAGRAPH_NL2CYPHER_PROMPT_TMPL = """
-Generate NebulaGraph query from natural language.
-Use only the provided relationship types and properties in the schema.
-Do not use any other relationship types or properties that are not provided.
-Schema:
+Сгенерируйте запрос Nebula Graph на естественном языке.
+Используйте только предоставленные типы связей и свойства в схеме.
+Не используйте какие-либо другие типы связей или свойства, которые не предусмотрены.
+Схема:
 ---
 {schema}
 ---
-Note: NebulaGraph speaks a dialect of Cypher, comparing to standard Cypher:
+Примечание: Небулаграф говорит на диалекте сайфера, по сравнению со стандартным сайфером:
 
-1. it uses double equals sign for comparison: `==` rather than `=`
-2. it needs explicit label specification when referring to node properties, i.e.
-v is a variable of a node, and we know its label is Foo, v.`foo`.name is correct
-while v.name is not.
+1. для сравнения используется двойной знак равенства: `==` вместо `=`
+2. требуется явное указание метки при обращении к свойствам узла, т.е.
+v - это переменная узла, и мы знаем, что ее метка - Foo, v.'foo`.имя правильное
+, в то время как v.name это не так.
 
-For example, see this diff between standard and NebulaGraph Cypher dialect:
-```diff
-< MATCH (p:person)-[:directed]->(m:movie) WHERE m.name = 'The Godfather'
-< RETURN p.name;
+Например, смотрите это различие между стандартным диалектом шифрования и графом туманности:
+`разница
+< СОВПАДЕНИЕ (p:персона) -[:режиссер]->(m:фильм), ГДЕ m.name = "Крестный отец"
+< ВОЗВРАТ p.name;
 ---
-> MATCH (p:`person`)-[:directed]->(m:`movie`) WHERE m.`movie`.`name` == 'The Godfather'
-> RETURN p.`person`.`name`;
+> СОВПАДЕНИЕ (p:`персона`) -[:режиссер]->(m:`фильм`) ГДЕ m.`фильм`.`название` == 'Крестный отец'
+> ВЕРНУТЬ p.`лицо`.`имя`;
 ```
 
-Question: {query_str}
+Вопрос: {query_str}
 
-NebulaGraph Cypher dialect query:
+Запрос на диалект шифра графа туманности:
 """
 DEFAULT_NEBULAGRAPH_NL2CYPHER_PROMPT = PromptTemplate(
     DEFAULT_NEBULAGRAPH_NL2CYPHER_PROMPT_TMPL,
@@ -56,18 +56,18 @@ DEFAULT_NEBULAGRAPH_NL2CYPHER_PROMPT = PromptTemplate(
 
 # Prompt
 DEFAULT_NEO4J_NL2CYPHER_PROMPT_TMPL = (
-    "Task:Generate Cypher statement to query a graph database.\n"
-    "Instructions:\n"
-    "Use only the provided relationship types and properties in the schema.\n"
-    "Do not use any other relationship types or properties that are not provided.\n"
-    "Schema:\n"
+    "Задача: Сгенерировать инструкцию Cypher для запроса базы данных graph.\n"
+    "Инструкции:\n"
+    "Используйте только предоставленные типы связей и свойства в схеме.\n"
+    "Не используйте какие-либо другие типы отношений или свойства, которые не предусмотрены.\n"
+    "Схема:\n"
     "{schema}\n"
-    "Note: Do not include any explanations or apologies in your responses.\n"
-    "Do not respond to any questions that might ask anything else than for you "
-    "to construct a Cypher statement. \n"
-    "Do not include any text except the generated Cypher statement.\n"
+    "Примечание: Не включайте никаких объяснений или извинений в свои ответы.\n"
+    "Не отвечайте ни на какие вопросы, которые могут касаться чего-либо другого, кроме вас"
+    "чтобы сконструировать шифровальное выражение. \n"
+    "Не включайте никакого текста, кроме сгенерированного оператора шифрования.\n"
     "\n"
-    "The question is:\n"
+    "Вопрос в следующем:\n"
     "{query_str}\n"
 )
 
@@ -81,16 +81,15 @@ DEFAULT_NL2GRAPH_PROMPT_MAP = {
     GraphStoreType.NEO4J: DEFAULT_NEO4J_NL2CYPHER_PROMPT,
 }
 
-DEFAULT_KG_RESPONSE_ANSWER_PROMPT_TMPL = """
-The original question is given below.
-This question has been translated into a Graph Database query.
-Both the Graph query and the response are given below.
-Given the Graph Query response, synthesise a response to the original question.
+DEFAULT_KG_RESPONSE_ANSWER_PROMPT_TMPL = """Первоначальный вопрос приведен ниже.
+Этот вопрос был преобразован в запрос к базе данных Graph.
+Как графический запрос, так и ответ приведены ниже.
+Учитывая ответ на запрос Graph, синтезируйте ответ на исходный вопрос.
 
-Original question: {query_str}
-Graph query: {kg_query_str}
-Graph response: {kg_response_str}
-Response: 
+Оригинальный вопрос: {query_str}
+Графический запрос: {kg_query_str}
+Графический ответ: {kg_response_str}
+Ответ:
 """
 
 DEFAULT_KG_RESPONSE_ANSWER_PROMPT = PromptTemplate(

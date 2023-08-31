@@ -26,20 +26,20 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_SQL_VECTOR_SYNTHESIS_PROMPT_TMPL = """
-The original question is given below.
-This question has been translated into a SQL query. \
-Both the SQL query and the response are given below.
-Given the SQL response, the question has also been translated into a vector store query.
-The vector store query and response is given below.
-Given SQL query, SQL response, transformed vector store query, and vector store \
-response, please synthesize a response to the original question.
+Первоначальный вопрос приведен ниже.
+Этот вопрос был переведен в SQL-запрос. \
+Как SQL-запрос, так и ответ приведены ниже.
+Учитывая ответ SQL, вопрос также был переведен в запрос векторного хранилища.
+Запрос и ответ векторного хранилища приведены ниже.
+Учитывая SQL-запрос, SQL-ответ, преобразованный запрос векторного хранилища и векторное хранилище \
+ответ, пожалуйста, синтезируйте ответ на исходный вопрос.
 
-Original question: {query_str}
-SQL query: {sql_query_str}
-SQL response: {sql_response_str}
-Transformed vector store query: {query_engine_query_str}
-Vector store response: {query_engine_response_str}
-Response: 
+Оригинальный вопрос: {query_str}
+SQL-запрос: {sql_query_str}
+SQL-ответ: {sql_response_str}
+Преобразованный запрос векторного хранилища: {query_engine_query_str}
+Ответ векторного хранилища: {query_engine_response_str}
+Ответ:
 """  # noqa
 DEFAULT_SQL_VECTOR_SYNTHESIS_PROMPT = PromptTemplate(
     DEFAULT_SQL_VECTOR_SYNTHESIS_PROMPT_TMPL

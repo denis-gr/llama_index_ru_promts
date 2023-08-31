@@ -24,14 +24,15 @@ MultiSelectPrompt = PromptTemplate
 
 # single select
 DEFAULT_SINGLE_SELECT_PROMPT_TMPL = (
-    "Some choices are given below. It is provided in a numbered list "
-    "(1 to {num_choices}),"
-    "where each item in the list corresponds to a summary.\n"
-    "---------------------\n"
+
+    "Ниже приведены некоторые варианты. Он представлен в виде пронумерованного списка "
+    "(от 1 до {num_choices}),"
+    "где каждому элементу в списке соответствует краткое описание.\n"
+    "---------------------\ n"
     "{context_list}"
-    "\n---------------------\n"
-    "Using only the choices above and not prior knowledge, return "
-    "the choice that is most relevant to the question: '{query_str}'\n"
+    "\n---------------------\ n"
+    "Используя только указанные выше варианты, а не предварительные знания, верните "
+    "выбор, который наиболее релевантен для вопроса: '{query_str}'\n"
 )
 
 
@@ -42,16 +43,17 @@ DEFAULT_SINGLE_SELECT_PROMPT = PromptTemplate(
 
 # multiple select
 DEFAULT_MULTI_SELECT_PROMPT_TMPL = (
-    "Some choices are given below. It is provided in a numbered "
-    "list (1 to {num_choices}), "
-    "where each item in the list corresponds to a summary.\n"
-    "---------------------\n"
+"Ниже приведены некоторые варианты. Он представлен в пронумерованном "
+    "список (от 1 до {num_choices})",
+    "где каждому элементу в списке соответствует краткое описание.\n"
+    "---------------------\ n"
     "{context_list}"
-    "\n---------------------\n"
-    "Using only the choices above and not prior knowledge, return the top choices "
-    "(no more than {max_outputs}, but only select what is needed) that "
-    "are most relevant to the question: '{query_str}'\n"
+    "\n---------------------\ n"
+    "Используя только приведенные выше варианты, а не предварительные знания, верните лучшие варианты "
+    "(не более {max_outputs}, но выберите только то, что необходимо), что "
+    "наиболее релевантны для вопроса: '{query_str}'\n"
 )
+
 
 
 DEFAULT_MULTIPLE_SELECT_PROMPT = PromptTemplate(
@@ -60,28 +62,28 @@ DEFAULT_MULTIPLE_SELECT_PROMPT = PromptTemplate(
 
 # single pydantic select
 DEFAULT_SINGLE_PYD_SELECT_PROMPT_TMPL = (
-    "Some choices are given below. It is provided in a numbered list "
-    "(1 to {num_choices}),"
-    "where each item in the list corresponds to a summary.\n"
-    "---------------------\n"
-    "{context_list}"
-    "\n---------------------\n"
-    "Using only the choices above and not prior knowledge, generate "
-    "the selection object and reason that is most relevant to the "
-    "question: '{query_str}'\n"
+"Ниже приведены некоторые варианты. Он представлен в виде пронумерованного списка "
+"(от 1 до {num_choices}),"
+"где каждому элементу в списке соответствует краткое описание.\n"
+"---------------------\ n"
+"{context_list}"
+"\n---------------------\ n"
+"Используя только описанные выше варианты, а не предварительные знания, сгенерируйте "
+"объект выбора и причина, которые наиболее релевантны для "
+"вопрос: '{query_str}'\n"
 )
 
 
 # multiple pydantic select
 DEFAULT_MULTI_PYD_SELECT_PROMPT_TMPL = (
-    "Some choices are given below. It is provided in a numbered "
-    "list (1 to {num_choices}), "
-    "where each item in the list corresponds to a summary.\n"
-    "---------------------\n"
+"Ниже приведены некоторые варианты. Он представлен в пронумерованном "
+    "список (от 1 до {num_choices})",
+    "где каждому элементу в списке соответствует краткое описание.\n"
+    "---------------------\ n"
     "{context_list}"
-    "\n---------------------\n"
-    "Using only the choices above and not prior knowledge, return the top choice(s) "
-    "(no more than {max_outputs}, but only select what is needed) by generating "
-    "the selection object and reasons that are most relevant to the "
-    "question: '{query_str}'\n"
+    "\n---------------------\ n"
+    "Используя только приведенные выше варианты, а не предварительные знания, верните лучший вариант (ы) "
+    "(не более {max_outputs}, но выберите только то, что необходимо) путем генерации "
+    "объект отбора и причины, которые наиболее релевантны для "
+    "вопрос: '{query_str}'\n"
 )

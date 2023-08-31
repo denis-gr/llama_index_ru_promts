@@ -25,67 +25,67 @@ from llama_index.tools.query_engine import QueryEngineTool
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_SQL_JOIN_SYNTHESIS_PROMPT_TMPL = """
-The original question is given below.
-This question has been translated into a SQL query. Both the SQL query and \
-the response are given below.
-Given the SQL response, the question has also been transformed into a more \
-detailed query,
-and executed against another query engine.
-The transformed query and query engine response are also given below.
-Given SQL query, SQL response, transformed query, and query engine response, \
-please synthesize a response to the original question.
+DEFAULT_SQL_JOIN_SYNTHESIS_PROMPT_TMPL =  """
+Первоначальный вопрос приведен ниже.
+Этот вопрос был переведен в SQL-запрос. Как SQL-запрос, так и \
+ответ приведены ниже.
+Учитывая ответ SQL, вопрос также был преобразован в более
+подробный запрос
+и выполнен с помощью другого механизма запросов.
+Преобразованный запрос и ответ обработчика запросов также приведены ниже.
+Учитывая SQL-запрос, SQL-ответ, преобразованный запрос и ответ механизма запросов, \
+пожалуйста, синтезируйте ответ на исходный вопрос.
 
-Original question: {query_str}
-SQL query: {sql_query_str}
-SQL response: {sql_response_str}
-Transformed query: {query_engine_query_str}
-Query engine response: {query_engine_response_str}
-Response: 
-"""  # noqa
+Оригинальный вопрос: {query_str}
+SQL-запрос: {sql_query_str}
+SQL-ответ: {sql_response_str}
+Преобразованный запрос: {query_engine_query_str}
+Ответ механизма запроса: {query_engine_response_str}
+Ответ:
+""" # noqa
 DEFAULT_SQL_JOIN_SYNTHESIS_PROMPT = PromptTemplate(
     DEFAULT_SQL_JOIN_SYNTHESIS_PROMPT_TMPL
 )
 
 
 DEFAULT_SQL_AUGMENT_TRANSFORM_PROMPT_TMPL = """
-"The original question is given below.
-This question has been translated into a SQL query. Both the SQL query and the \
-response are given below.
-The SQL response either answers the question, or should provide additional context \
-that can be used to make the question more specific.
-Your job is to come up with a more specific question that needs to be answered to \
-fully answer the original question, or 'None' if the original question has already \
-been fully answered from the SQL response. Do not create a new question that is \
-irrelevant to the original question; in that case return None instead.
+"Первоначальный вопрос приведен ниже.
+Этот вопрос был переведен в SQL-запрос. Как SQL-запрос, так и \
+response приведены ниже.
+SQL-ответ либо отвечает на вопрос, либо должен предоставлять дополнительный контекст \,
+который можно использовать, чтобы сделать вопрос более конкретным.
+Ваша задача состоит в том, чтобы придумать более конкретный вопрос, на который необходимо ответить, чтобы
+полностью ответить на исходный вопрос, или "Нет", если на исходный вопрос уже
+был получен полный ответ из SQL-ответа. Не создавайте новый вопрос, который является \
+не имеет отношения к исходному вопросу; в этом случае верните вместо него None.
 
-Examples:
+Примеры:
 
-Original question: Please give more details about the demographics of the city with \
-the highest population.
-SQL query: SELECT city, population FROM cities ORDER BY population DESC LIMIT 1
-SQL response: The city with the highest population is New York City.
-New question: Can you tell me more about the demographics of New York City?
+Оригинальный вопрос: Пожалуйста, дайте более подробную информацию о демографии города с
+наибольшим населением.
+SQL-запрос: ВЫБЕРИТЕ город, население ИЗ списка городов В ПОРЯДКЕ убывания численности населения, ОГРАНИЧЕНИЕ 1
+Ответ SQL: Городом с самым высоким населением является Нью-Йорк.
+Новый вопрос: Не могли бы вы рассказать мне больше о демографии Нью-Йорка?
 
-Original question: Please compare the sports environment of cities in North America.
-SQL query: SELECT city_name FROM cities WHERE continent = 'North America' LIMIT 3
-SQL response: The cities in North America are New York, San Francisco, and Toronto.
-New question: What sports are played in New York, San Francisco, and Toronto?
+Оригинальный вопрос: Пожалуйста, сравните спортивную среду городов Северной Америки.
+SQL-запрос: ВЫБЕРИТЕ city_name ИЗ городов, ГДЕ continent = 'Северная Америка', ОГРАНИЧЕНИЕ 3
+Ответ SQL: Городами в Северной Америке являются Нью-Йорк, Сан-Франциско и Торонто.
+Новый вопрос: Какими видами спорта занимаются в Нью-Йорке, Сан-Франциско и Торонто?
 
-Original question: What is the city with the highest population?
-SQL query: SELECT city, population FROM cities ORDER BY population DESC LIMIT 1
-SQL response: The city with the highest population is New York City.
-New question: None
+Оригинальный вопрос: Какой город с самым большим населением?
+SQL-запрос: ВЫБЕРИТЕ город, население ИЗ списка городов В ПОРЯДКЕ убывания численности населения, ОГРАНИЧЕНИЕ 1
+Ответ SQL: Городом с самым высоким населением является Нью-Йорк.
+Новый вопрос: Нет
 
-Original question: What countries are the top 3 ATP players from?
-SQL query: SELECT country FROM players WHERE rank <= 3
-SQL response: The top 3 ATP players are from Serbia, Russia, and Spain.
-New question: None
+Оригинальный вопрос: Из каких стран входят в тройку лучших игроков ATP?
+SQL-запрос: ВЫБЕРИТЕ страну ИЗ списка игроков, рейтинг КОТОРЫХ <= 3
+SQL-ответ: В тройку лучших игроков ATP входят представители Сербии, России и Испании.
+Новый вопрос: Нет
 
-Original question: {query_str}
-SQL query: {sql_query_str}
-SQL response: {sql_response_str}
-New question: "
+Оригинальный вопрос: {query_str}
+SQL-запрос: {sql_query_str}
+SQL-ответ: {sql_response_str}
+Новый вопрос: "
 """  # noqa
 DEFAULT_SQL_AUGMENT_TRANSFORM_PROMPT = PromptTemplate(
     DEFAULT_SQL_AUGMENT_TRANSFORM_PROMPT_TMPL

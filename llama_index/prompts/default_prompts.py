@@ -8,15 +8,15 @@ from llama_index.prompts.prompt_type import PromptType
 ############################################
 
 DEFAULT_SUMMARY_PROMPT_TMPL = (
-    "Write a summary of the following. Try to use only the "
-    "information provided. "
-    "Try to include as many key details as possible.\n"
+    "Напишите краткое изложение следующего. Старайтесь использовать только "
+    "информация предоставлена."
+    "Постарайтесь включить как можно больше ключевых деталей.\n"
     "\n"
     "\n"
     "{context_str}\n"
     "\n"
     "\n"
-    'SUMMARY:"""\n'
+    'КРАТКОЕ ОПИСАНИЕ:"""\n'
 )
 
 DEFAULT_SUMMARY_PROMPT = PromptTemplate(
@@ -25,17 +25,17 @@ DEFAULT_SUMMARY_PROMPT = PromptTemplate(
 
 # insert prompts
 DEFAULT_INSERT_PROMPT_TMPL = (
-    "Context information is below. It is provided in a numbered list "
-    "(1 to {num_chunks}),"
-    "where each item in the list corresponds to a summary.\n"
-    "---------------------\n"
+    "Контекстная информация приведена ниже. Он представлен в виде пронумерованного списка "
+    "(от 1 до {num_chunks}),"
+    "где каждому элементу в списке соответствует краткое описание.\n"
+    "---------------------\ n"
     "{context_list}"
-    "---------------------\n"
-    "Given the context information, here is a new piece of "
-    "information: {new_chunk_text}\n"
-    "Answer with the number corresponding to the summary that should be updated. "
-    "The answer should be the number corresponding to the "
-    "summary that is most relevant to the question.\n"
+    "---------------------\ n"
+    "Учитывая контекстную информацию, вот новый фрагмент "
+    "информация: {new_chunk_text}\n"
+    "Ответьте номером, соответствующим резюме, которое следует обновить."
+    "Ответом должно быть число, соответствующее "
+    "краткое изложение, наиболее относящееся к вопросу.\n"
 )
 DEFAULT_INSERT_PROMPT = PromptTemplate(
     DEFAULT_INSERT_PROMPT_TMPL, prompt_type=PromptType.TREE_INSERT
@@ -44,16 +44,16 @@ DEFAULT_INSERT_PROMPT = PromptTemplate(
 
 # # single choice
 DEFAULT_QUERY_PROMPT_TMPL = (
-    "Some choices are given below. It is provided in a numbered list "
-    "(1 to {num_chunks}),"
-    "where each item in the list corresponds to a summary.\n"
-    "---------------------\n"
+    "Ниже приведены некоторые варианты. Он представлен в виде пронумерованного списка "
+    "(от 1 до {num_chunks}),"
+    "где каждому элементу в списке соответствует краткое описание.\n"
+    "---------------------\ n"
     "{context_list}"
-    "\n---------------------\n"
-    "Using only the choices above and not prior knowledge, return "
-    "the choice that is most relevant to the question: '{query_str}'\n"
-    "Provide choice in the following format: 'ANSWER: <number>' and explain why "
-    "this summary was selected in relation to the question.\n"
+    "\n---------------------\ n"
+    "Используя только указанные выше варианты, а не предварительные знания, верните "
+    "выбор, который наиболее релевантен для вопроса: '{query_str}'\n"
+    "Предоставьте выбор в следующем формате: 'ОТВЕТ: <число>' и объясните почему "
+    "это краткое изложение было выбрано в связи с вопросом.\n"
 )
 DEFAULT_QUERY_PROMPT = PromptTemplate(
     DEFAULT_QUERY_PROMPT_TMPL, prompt_type=PromptType.TREE_SELECT
@@ -61,17 +61,18 @@ DEFAULT_QUERY_PROMPT = PromptTemplate(
 
 # multiple choice
 DEFAULT_QUERY_PROMPT_MULTIPLE_TMPL = (
-    "Some choices are given below. It is provided in a numbered "
-    "list (1 to {num_chunks}), "
-    "where each item in the list corresponds to a summary.\n"
-    "---------------------\n"
+
+    "Ниже приведены некоторые варианты. Он представлен в пронумерованном "
+    "список (от 1 до {num_chunks})",
+    "где каждому элементу в списке соответствует краткое описание.\n"
+    "---------------------\ n"
     "{context_list}"
-    "\n---------------------\n"
-    "Using only the choices above and not prior knowledge, return the top choices "
-    "(no more than {branching_factor}, ranked by most relevant to least) that "
-    "are most relevant to the question: '{query_str}'\n"
-    "Provide choices in the following format: 'ANSWER: <numbers>' and explain why "
-    "these summaries were selected in relation to the question.\n"
+    "\n---------------------\ n"
+    "Используя только приведенные выше варианты, а не предварительные знания, верните лучшие варианты "
+    "(не более {branching_factor}, ранжированный от наиболее релевантного к наименьшему), что "
+    "наиболее релевантны для вопроса: '{query_str}'\n"
+    "Предоставьте варианты в следующем формате: 'ОТВЕТ: <цифры>' и объясните, почему "
+    "эти резюме были отобраны в связи с вопросом.\n"
 )
 DEFAULT_QUERY_PROMPT_MULTIPLE = PromptTemplate(
     DEFAULT_QUERY_PROMPT_MULTIPLE_TMPL, prompt_type=PromptType.TREE_SELECT_MULTIPLE
@@ -79,46 +80,52 @@ DEFAULT_QUERY_PROMPT_MULTIPLE = PromptTemplate(
 
 
 DEFAULT_REFINE_PROMPT_TMPL = (
-    "The original query is as follows: {query_str}\n"
-    "We have provided an existing answer: {existing_answer}\n"
-    "We have the opportunity to refine the existing answer "
-    "(only if needed) with some more context below.\n"
-    "------------\n"
+    "Исходный запрос выглядит следующим образом: {query_str}\n"
+    "Мы предоставили существующий ответ: {existing_answer}\n"
+    "У нас есть возможность уточнить существующий ответ "
+    "(только при необходимости) с дополнительным контекстом ниже.\n"
+    "------------\ n"
     "{context_msg}\n"
-    "------------\n"
-    "Given the new context, refine the original answer to better "
-    "answer the query. "
-    "If the context isn't useful, return the original answer.\n"
-    "Refined Answer: "
+    "------------\ n"
+    "Учитывая новый контекст, уточните первоначальный ответ, чтобы он стал лучше "
+    "ответь на запрос."
+    "Если контекст бесполезен, верните исходный ответ.\n"
+    "Уточненный ответ: "
 )
+
+
+
 DEFAULT_REFINE_PROMPT = PromptTemplate(
     DEFAULT_REFINE_PROMPT_TMPL, prompt_type=PromptType.REFINE
 )
 
 
 DEFAULT_TEXT_QA_PROMPT_TMPL = (
-    "Context information is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the context information and not prior knowledge, "
-    "answer the query.\n"
-    "Query: {query_str}\n"
-    "Answer: "
+
+    "Контекстная информация приведена ниже.\n"
+"---------------------\ n"
+"{context_str}\n"
+"---------------------\ n"
+"Учитывая контекстную информацию, а не предварительные знания",
+"ответьте на запрос.\n"
+"Запрос: {query_str}\n"
+"Ответ: "
 )
 DEFAULT_TEXT_QA_PROMPT = PromptTemplate(
     DEFAULT_TEXT_QA_PROMPT_TMPL, prompt_type=PromptType.QUESTION_ANSWER
 )
 
 DEFAULT_TREE_SUMMARIZE_TMPL = (
-    "Context information from multiple sources is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the information from multiple sources and not prior knowledge, "
-    "answer the query.\n"
-    "Query: {query_str}\n"
+
     "Answer: "
+    "Ниже приведена контекстная информация из нескольких источников.\n"
+    "---------------------\ n"
+    "{context_str}\n"
+    "---------------------\ n"
+    "Учитывая информацию из нескольких источников, а не предварительные знания",
+    "ответьте на запрос.\n"
+    "Запрос: {query_str}\n"
+    "Ответ: "
 )
 DEFAULT_TREE_SUMMARIZE_PROMPT = PromptTemplate(
     DEFAULT_TREE_SUMMARIZE_TMPL, prompt_type=PromptType.SUMMARY
@@ -130,12 +137,12 @@ DEFAULT_TREE_SUMMARIZE_PROMPT = PromptTemplate(
 ############################################
 
 DEFAULT_KEYWORD_EXTRACT_TEMPLATE_TMPL = (
-    "Some text is provided below. Given the text, extract up to {max_keywords} "
-    "keywords from the text. Avoid stopwords."
-    "---------------------\n"
+    "Ниже приведен некоторый текст. Учитывая текст, извлеките до {max_keywords} "
+    "ключевые слова из текста. Избегайте стоп-слов."
+    "---------------------\ n"
     "{text}\n"
-    "---------------------\n"
-    "Provide keywords in the following comma-separated format: 'KEYWORDS: <keywords>'\n"
+    "---------------------\ n"
+    "Укажите ключевые слова в следующем формате, разделенном запятыми: 'КЛЮЧЕВЫЕ слова: <ключевые слова>'\n"
 )
 DEFAULT_KEYWORD_EXTRACT_TEMPLATE = PromptTemplate(
     DEFAULT_KEYWORD_EXTRACT_TEMPLATE_TMPL, prompt_type=PromptType.KEYWORD_EXTRACT
@@ -145,13 +152,13 @@ DEFAULT_KEYWORD_EXTRACT_TEMPLATE = PromptTemplate(
 # NOTE: the keyword extraction for queries can be the same as
 # the one used to build the index, but here we tune it to see if performance is better.
 DEFAULT_QUERY_KEYWORD_EXTRACT_TEMPLATE_TMPL = (
-    "A question is provided below. Given the question, extract up to {max_keywords} "
-    "keywords from the text. Focus on extracting the keywords that we can use "
-    "to best lookup answers to the question. Avoid stopwords.\n"
-    "---------------------\n"
+    "Ниже приведен вопрос. Учитывая вопрос, извлеките до {max_keywords} "
+    "ключевые слова из текста. Сосредоточьтесь на извлечении ключевых слов, которые мы можем использовать "
+    "чтобы лучше всего найти ответы на этот вопрос. Избегайте стоп-слов.\n"
+    "---------------------\ n"
     "{question}\n"
-    "---------------------\n"
-    "Provide keywords in the following comma-separated format: 'KEYWORDS: <keywords>'\n"
+    "---------------------\ n"
+    "Укажите ключевые слова в следующем формате, разделенном запятыми: 'КЛЮЧЕВЫЕ слова: <ключевые слова>'\n"
 )
 DEFAULT_QUERY_KEYWORD_EXTRACT_TEMPLATE = PromptTemplate(
     DEFAULT_QUERY_KEYWORD_EXTRACT_TEMPLATE_TMPL,
@@ -164,20 +171,21 @@ DEFAULT_QUERY_KEYWORD_EXTRACT_TEMPLATE = PromptTemplate(
 ############################################
 
 DEFAULT_SCHEMA_EXTRACT_TMPL = (
-    "We wish to extract relevant fields from an unstructured text chunk into "
-    "a structured schema. We first provide the unstructured text, and then "
-    "we provide the schema that we wish to extract. "
-    "-----------text-----------\n"
+   
+    "Мы хотим извлечь соответствующие поля из неструктурированного текстового фрагмента в "
+    "- структурированная схема. Сначала мы предоставляем неструктурированный текст, а затем "
+    "мы предоставляем схему, которую хотим извлечь."
+    "----------- текст-----------\ n"
     "{text}\n"
-    "-----------schema-----------\n"
+    "----------- схема-----------\ n"
     "{schema}\n"
-    "---------------------\n"
-    "Given the text and schema, extract the relevant fields from the text in "
-    "the following format: "
-    "field1: <value>\nfield2: <value>\n...\n\n"
-    "If a field is not present in the text, don't include it in the output."
-    "If no fields are present in the text, return a blank string.\n"
-    "Fields: "
+    "---------------------\ n"
+    "Учитывая текст и схему, извлеките соответствующие поля из текста в "
+    "следующий формат: "
+    "поле 1: <значение>\поле 2: <значение>\n...\n\n"
+    "Если какое-либо поле отсутствует в тексте, не включайте его в выходные данные."
+    "Если в тексте нет полей, верните пустую строку.\n"
+    "Поля: "
 )
 DEFAULT_SCHEMA_EXTRACT_PROMPT = PromptTemplate(
     DEFAULT_SCHEMA_EXTRACT_TMPL, prompt_type=PromptType.SCHEMA_EXTRACT
@@ -186,26 +194,27 @@ DEFAULT_SCHEMA_EXTRACT_PROMPT = PromptTemplate(
 # NOTE: taken from langchain and adapted
 # https://tinyurl.com/b772sd77
 DEFAULT_TEXT_TO_SQL_TMPL = (
-    "Given an input question, first create a syntactically correct {dialect} "
-    "query to run, then look at the results of the query and return the answer. "
-    "You can order the results by a relevant column to return the most "
-    "interesting examples in the database.\n"
-    "Never query for all the columns from a specific table, only ask for a "
-    "few relevant columns given the question.\n"
-    "Pay attention to use only the column names that you can see in the schema "
-    "description. "
-    "Be careful to not query for columns that do not exist. "
-    "Pay attention to which column is in which table. "
-    "Also, qualify column names with the table name when needed.\n"
-    "Use the following format:\n"
-    "Question: Question here\n"
-    "SQLQuery: SQL Query to run\n"
-    "SQLResult: Result of the SQLQuery\n"
-    "Answer: Final answer here\n"
-    "Only use the tables listed below.\n"
-    "{schema}\n"
-    "Question: {query_str}\n"
     "SQLQuery: "
+    "Учитывая входной вопрос, сначала создайте синтаксически правильный {dialect} "
+    "запрос для запуска, затем просмотрите результаты запроса и верните ответ."
+    "Вы можете упорядочить результаты по соответствующему столбцу, чтобы вернуть наибольшее количество "
+    "интересные примеры в базе данных.\n"
+    "Никогда не запрашивайте все столбцы из определенной таблицы, запрашивайте только "
+    "несколько соответствующих столбцов с учетом вопроса.\n"
+    "Обратите внимание на использование только тех имен столбцов, которые вы можете видеть в схеме "
+    "описание."
+    "Будьте осторожны и не запрашивайте столбцы, которые не существуют."
+    "Обратите внимание, какой столбец находится в какой таблице."
+    "Кроме того, при необходимости уточняйте имена столбцов именем таблицы.\n"
+    "Используйте следующий формат:\n"
+    "Вопрос: Вопрос здесь\n"
+    "SQL-запрос: SQL-запрос для запуска\n"
+    "SQLResult: результат SQL-запроса\n"
+    "Ответ: Окончательный ответ здесь\n"
+    "Используйте только таблицы, перечисленные ниже.\n"
+    "{schema}\n"
+    "Вопрос: {query_str}\n"
+    "SqlQuery: "
 )
 
 DEFAULT_TEXT_TO_SQL_PROMPT = PromptTemplate(
@@ -217,24 +226,25 @@ DEFAULT_TEXT_TO_SQL_PROMPT = PromptTemplate(
 # NOTE: by partially filling schema, we can reduce to a QuestionAnswer prompt
 # that we can feed to ur table
 DEFAULT_TABLE_CONTEXT_TMPL = (
-    "We have provided a table schema below. "
-    "---------------------\n"
+
+    "Мы предоставили схему таблицы ниже."
+    "---------------------\ n"
     "{schema}\n"
-    "---------------------\n"
-    "We have also provided context information below. "
+    "---------------------\ n"
+    "Мы также предоставили контекстную информацию ниже."
     "{context_str}\n"
-    "---------------------\n"
-    "Given the context information and the table schema, "
-    "give a response to the following task: {query_str}"
+    "---------------------\ n"
+    "Учитывая контекстную информацию и схему таблицы",
+    "дайте ответ на следующую задачу: {query_str}"
 )
 
 DEFAULT_TABLE_CONTEXT_QUERY = (
-    "Provide a high-level description of the table, "
-    "as well as a description of each column in the table. "
-    "Provide answers in the following format:\n"
-    "TableDescription: <description>\n"
-    "Column1Description: <description>\n"
-    "Column2Description: <description>\n"
+    "Предоставьте высокоуровневое описание таблицы",
+    "а также описание каждого столбца в таблице."
+    "Предоставьте ответы в следующем формате:\n"
+    "Описание таблицы: <описание>\n"
+    "Описание столбца 1: <описание>\n"
+    "Описание столбца 2: <описание>\n"
     "...\n\n"
 )
 
@@ -245,19 +255,20 @@ DEFAULT_TABLE_CONTEXT_PROMPT = PromptTemplate(
 # NOTE: by partially filling schema, we can reduce to a refine prompt
 # that we can feed to ur table
 DEFAULT_REFINE_TABLE_CONTEXT_TMPL = (
-    "We have provided a table schema below. "
-    "---------------------\n"
+
+    "Мы предоставили схему таблицы ниже."
+    "---------------------\ n"
     "{schema}\n"
-    "---------------------\n"
-    "We have also provided some context information below. "
+    "---------------------\ n"
+    "Мы также предоставили некоторую контекстную информацию ниже."
     "{context_msg}\n"
-    "---------------------\n"
-    "Given the context information and the table schema, "
-    "give a response to the following task: {query_str}\n"
-    "We have provided an existing answer: {existing_answer}\n"
-    "Given the new context, refine the original answer to better "
-    "answer the question. "
-    "If the context isn't useful, return the original answer."
+    "---------------------\ n"
+    "Учитывая контекстную информацию и схему таблицы",
+    "дайте ответ на следующую задачу: {query_str}\n"
+    "Мы предоставили существующий ответ: {existing_answer}\n"
+    "Учитывая новый контекст, уточните первоначальный ответ, чтобы он стал лучше "
+    "- отвечай на вопрос."
+    "Если контекст бесполезен, верните исходный ответ."
 )
 DEFAULT_REFINE_TABLE_CONTEXT_PROMPT = PromptTemplate(
     DEFAULT_REFINE_TABLE_CONTEXT_TMPL, prompt_type=PromptType.TABLE_CONTEXT
@@ -269,21 +280,21 @@ DEFAULT_REFINE_TABLE_CONTEXT_PROMPT = PromptTemplate(
 ############################################
 
 DEFAULT_KG_TRIPLET_EXTRACT_TMPL = (
-    "Some text is provided below. Given the text, extract up to "
+    "Ниже приведен некоторый текст. Учитывая текст, извлеките до "
     "{max_knowledge_triplets} "
-    "knowledge triplets in the form of (subject, predicate, object). Avoid stopwords.\n"
-    "---------------------\n"
-    "Example:"
-    "Text: Alice is Bob's mother."
-    "Triplets:\n(Alice, is mother of, Bob)\n"
-    "Text: Philz is a coffee shop founded in Berkeley in 1982.\n"
-    "Triplets:\n"
-    "(Philz, is, coffee shop)\n"
-    "(Philz, founded in, Berkeley)\n"
-    "(Philz, founded in, 1982)\n"
-    "---------------------\n"
-    "Text: {text}\n"
-    "Triplets:\n"
+    "тройки знаний в форме (субъект, предикат, объект). Избегайте стоп-слов.\n"
+    "---------------------\ n"
+    "Пример:"
+    "Сообщение: Элис - мать Боба."
+    "Тройняшки:\n(Алиса, мать Боба)\n"
+    "Текст: Philz - кофейня, основанная в Беркли в 1982 году.\n"
+    "Тройняшки:\n"
+    "(Филз, ис, кофейня)\n"
+    "(Philz, основана в Беркли)\n"
+    "(Philz, основана в 1982 году)\n"
+    "---------------------\ n"
+    "Текст: {text}\n"
+    "Тройняшки:\n"
 )
 DEFAULT_KG_TRIPLET_EXTRACT_PROMPT = PromptTemplate(
     DEFAULT_KG_TRIPLET_EXTRACT_TMPL, prompt_type=PromptType.KNOWLEDGE_TRIPLET_EXTRACT
@@ -294,14 +305,15 @@ DEFAULT_KG_TRIPLET_EXTRACT_PROMPT = PromptTemplate(
 ##############################################
 
 HYDE_TMPL = (
-    "Please write a passage to answer the question\n"
-    "Try to include as many key details as possible.\n"
+
+    "Пожалуйста, напишите отрывок, чтобы ответить на вопрос\n"
+    "Постарайтесь включить как можно больше ключевых деталей.\n"
     "\n"
     "\n"
     "{context_str}\n"
     "\n"
     "\n"
-    'Passage:"""\n'
+    'Отрывок:"""\n'
 )
 
 DEFAULT_HYDE_PROMPT = PromptTemplate(HYDE_TMPL, prompt_type=PromptType.SUMMARY)
@@ -322,15 +334,16 @@ DEFAULT_SIMPLE_INPUT_PROMPT = PromptTemplate(
 ############################################
 
 DEFAULT_PANDAS_TMPL = (
-    "You are working with a pandas dataframe in Python.\n"
-    "The name of the dataframe is `df`.\n"
-    "This is the result of `print(df.head())`:\n"
+
+    "Вы работаете с фреймворком данных pandas в Python.\n"
+    "Имя dataframe - `df`.\n"
+    "Это результат `print(df.head())`:\n"
     "{df_str}\n\n"
-    "Here is the input query: {query_str}.\n"
-    "Given the df information and the input query, please follow "
-    "these instructions:\n"
+    "Вот входной запрос: {query_str}.\n"
+    "Учитывая информацию df и входной запрос, пожалуйста, следуйте "
+    "эти инструкции:\n"
     "{instruction_str}"
-    "Output:\n"
+    "Вывод:\n"
 )
 
 DEFAULT_PANDAS_PROMPT = PromptTemplate(
@@ -343,11 +356,12 @@ DEFAULT_PANDAS_PROMPT = PromptTemplate(
 ############################################
 
 DEFAULT_JSON_PATH_TMPL = (
-    "We have provided a JSON schema below:\n"
+
+    "Мы предоставили схему JSON ниже:\n"
     "{schema}\n"
-    "Given a task, respond with a JSON Path query that "
-    "can retrieve data from a JSON value that matches the schema.\n"
-    "Task: {query_str}\n"
+    "Учитывая задачу, ответьте запросом пути в формате JSON, который "
+    "может извлекать данные из значения JSON, соответствующего схеме.\n"
+    "Задача: {query_str}\n"
     "JSONPath: "
 )
 
@@ -361,27 +375,28 @@ DEFAULT_JSON_PATH_PROMPT = PromptTemplate(
 ############################################
 
 DEFAULT_CHOICE_SELECT_PROMPT_TMPL = (
-    "A list of documents is shown below. Each document has a number next to it along "
-    "with a summary of the document. A question is also provided. \n"
-    "Respond with the numbers of the documents "
-    "you should consult to answer the question, in order of relevance, as well \n"
-    "as the relevance score. The relevance score is a number from 1-10 based on "
-    "how relevant you think the document is to the question.\n"
-    "Do not include any documents that are not relevant to the question. \n"
-    "Example format: \n"
-    "Document 1:\n<summary of document 1>\n\n"
-    "Document 2:\n<summary of document 2>\n\n"
+
+    "Список документов приведен ниже. Рядом с каждым документом проставлен номер. "
+    "с кратким изложением документа. Также предусмотрен вопрос. \n"
+    "Ответьте номерами документов "
+    "вам также следует проконсультироваться, чтобы ответить на вопрос, в порядке значимости."
+    "в качестве показателя релевантности. Оценка релевантности - это число от 1 до 10, основанное на "
+    "насколько, по вашему мнению, этот документ имеет отношение к данному вопросу.\n"
+    "Не включайте никаких документов, которые не имеют отношения к данному вопросу. \n"
+    "Пример формата: \n"
+    "Документ 1:\n<краткое содержание документа 1>\n\n"
+    "Документ 2:\n<краткое содержание документа 2>\n\n"
     "...\n\n"
-    "Document 10:\n<summary of document 10>\n\n"
-    "Question: <question>\n"
-    "Answer:\n"
-    "Doc: 9, Relevance: 7\n"
-    "Doc: 3, Relevance: 4\n"
-    "Doc: 7, Relevance: 3\n\n"
-    "Let's try this now: \n\n"
+    "Документ 10:\n<краткое содержание документа 10>\n\n"
+    "Вопрос: <вопрос>\n"
+    "Ответ:\n"
+    "Документ: 9, Актуальность: 7\n"
+    "Документ: 3, Актуальность: 4\n"
+    "Документ: 7, Актуальность: 3\n\n"
+    "Давайте попробуем это сейчас: \n\n"
     "{context_str}\n"
-    "Question: {query_str}\n"
-    "Answer:\n"
+    "Вопрос: {query_str}\n"
+    "Ответ:\n"
 )
 DEFAULT_CHOICE_SELECT_PROMPT = PromptTemplate(
     DEFAULT_CHOICE_SELECT_PROMPT_TMPL, prompt_type=PromptType.CHOICE_SELECT

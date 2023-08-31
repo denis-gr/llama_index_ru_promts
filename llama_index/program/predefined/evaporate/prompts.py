@@ -81,6 +81,53 @@ Sample text:
 Question: List all relevant attributes about '{{topic:}}' that are exactly mentioned in this sample text if any. 
 Answer:"""  # noqa: E501, F541
 
+SCHEMA_ID_PROMPT_TMPL = f"""Пример текста:
+<tr class="mergedrow"><th scope="row" class="infobox-label"><div style="отступ текста:-0,9em;поле слева:1,2em;вес шрифта:обычный;">•&nbsp;<a href="/wiki/Monarchy_of_Canada" title="Монархия Канады">Монарх</a> </div></th><td class="infobox-data"><a href="/wiki/Charles_III" title="Карл III">Чарльз III</a></td></tr>
+<tr class="mergedrow"><th scope="row" class="infobox-label"><div style="отступ текста:-0,9em;поле слева:1,2em;вес шрифта:обычный;">•&nbsp;<span class="nowrap"><a href="/wiki/Governor_General_of_Canada" title="Генерал-губернатор Канады">Генерал-губернатор</a></span> </div></th><td class="infobox-data"><a href="/wiki/Mary_Simon" title="Мэри Саймон">Мэри Саймон</a></td></tr>
+<b>Провинции и территории</b class='соединяющие страны'>
+<ул>
+<li>Саскачеван</li>
+<li>Манитоба</li>
+<li>Онтарио</li>
+<li>Квебек</li>
+<li>Нью-Брансуик</li>
+<li>Остров Принца Эдуарда</li>
+<li>Новая Шотландия</li>
+<li>Ньюфаундленд и Лабрадор</li>
+<li>Юкон</li>
+<li>Нунавут</li>
+<li>Северо-западные территории</li>
+</ul>
+
+Вопрос: Перечислите все соответствующие атрибуты "Канады", которые точно упоминаются в этом образце текста, если таковые имеются.
+Ответ: 
+- Монарх: Карл III
+- Генерал-губернатор: Мэри Саймон
+- Провинции и территории: Саскачеван, Манитоба, Онтарио, Квебек, Нью-Брансуик, остров Принца Эдуарда, Новая Шотландия, Ньюфаундленд и Лабрадор, Юкон, Нунавут, Северо-Западные территории
+
+----
+
+Пример текста:
+Дата рождения пациента: 1990-01-01
+Предписанные лекарства: аспирин, ибупрофен, ацетаминофен
+Предписанная дозировка: 1 таблетка, 2 таблетки, 3 таблетки
+Имя врача: доктор Бернс
+Дата выписки: 2020-01-01
+Адрес больницы: 123 Main Street, Нью-Йорк, NY 10001
+
+Вопрос: Перечислите все соответствующие атрибуты "лекарств", которые точно упоминаются в этом образце текста, если таковые имеются.
+Ответ: 
+- Назначенные лекарства: аспирин, ибупрофен, ацетаминофен
+- Предписанная дозировка: 1 таблетка, 2 таблетки, 3 таблетки
+
+----
+
+Пример текста:
+{{chunk:}}
+
+Вопрос: Перечислите все соответствующие атрибуты '{{topic:}}', которые точно упоминаются в этом примере текста, если таковые имеются. 
+Ответ: """
+
 SCHEMA_ID_PROMPT = PromptTemplate(SCHEMA_ID_PROMPT_TMPL)
 
 
@@ -108,6 +155,28 @@ def get_{{function_field:}}_field(text: str):
     \"""
     """  # noqa: E501, F541
 
+FN_GENERATION_PROMPT_TMPL = f"""Вот пример текста:
+
+{{context_str:}}
+
+
+Вопрос: {{query_str:}}
+
+Учитывая сигнатуру функции, напишите код на Python, чтобы извлечь поле
+"{{attribute:}}" из текста.
+Возвращает результат в виде одного значения (string, int, float), а не списка.
+Убедитесь, что в коде есть оператор return. Не оставляйте без внимания заявление о возврате.
+{{expected_output_str:}}
+
+импортировать повторно
+
+def get_{{function_field:}}_field(text: str):
+    \"""
+    Функция для извлечения "{{attribute:}} поле" и возврата результата
+в виде одного значения.
+    \"""
+    """
+
 FN_GENERATION_PROMPT = PromptTemplate(FN_GENERATION_PROMPT_TMPL)
 
 
@@ -134,6 +203,29 @@ def get_{{function_field:}}_field(text: str) -> List:
     \"""
     """  # noqa: E501, F541
 
+f"""Вот образец текста:
+
+{{context_str:}}
+
+
+Вопрос: {{query_str:}}
+
+Учитывая сигнатуру функции, напишите код на Python, чтобы извлечь поле
+"{{attribute:}}" из текста.
+Верните результат в виде списка значений (если есть только один элемент, верните один \
+список элементов).
+Убедитесь, что в коде есть оператор return. Не оставляйте без внимания заявление о возврате.
+{{expected_output_str:}}
+
+импортировать повторно
+
+def get_{{function_field:}}_field(text: str) -> Список:
+    \"""
+    Функция для извлечения "{{attribute:}} поле" и возврата результата
+в виде одного значения.
+    \"""
+    """
+
 FN_GENERATION_LIST_PROMPT = PromptTemplate(FN_GENERATION_LIST_PROMPT_TMPL)
 
 DEFAULT_EXPECTED_OUTPUT_PREFIX_TMPL = (
@@ -146,4 +238,16 @@ DEFAULT_EXPECTED_OUTPUT_PREFIX_TMPL = (
 DEFAULT_FIELD_EXTRACT_QUERY_TMPL = (
     'Write a python function to extract the entire "{field}" field from text, '
     "but not any other metadata. Return the result as a list."
+)
+
+DEFAULT_EXPECTED_OUTPUT_PREFIX_TMPL = (
+"Вот ожидаемый вывод текста после запуска функции."
+    "Пожалуйста, не пишите функцию, которая возвращала бы другой результат."
+    "Ожидаемый результат: "
+)
+
+
+DEFAULT_FIELD_EXTRACT_QUERY_TMPL = (
+    'Напишите функцию python для извлечения всего поля "{field}" из текста, '
+    "но не какие-либо другие метаданные. Верните результат в виде списка."
 )
